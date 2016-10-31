@@ -9,7 +9,8 @@
 <body>
 <h1>受付中イベント一覧</h1>
 <?php
-include 'config.php';
+require_once '../config.php';
+require_once '../lib/loader.php';
 // DBに接続
 $mysqli = new mysqli(DB_HOST,DB_USER,DB_PASS,DB_NAME);
 if (mysqli_connect_errno()) {
@@ -18,7 +19,6 @@ if (mysqli_connect_errno()) {
 	$mysqli->set_charset(DB_CHAR);
 	$mysqli->query("LOCK TABLES trans reserve WRITE,event WRITE;");
 }
-require ('./functions.php');
 
 	$SQL = "select event_id,name from event where st_date <= CURDATE() and CURDATE() <= ed_date;";
 	$OUT = $mysqli->query($SQL);

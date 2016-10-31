@@ -53,9 +53,8 @@ insert into event(name,email,st_date,ed_date,capacity)
 values('kigenngire','angelan@mihoshi.info','2008-01-01','2008-03-31',30);
 */
 //共通関数をインポート
-require ('./functions.php');
-require ('./forms.php');
-require_once 'config.php';
+require_once '../config.php';
+require_once '../lib/loader.php';
 
 // エラーメッセージ
 $error_msg = "";
@@ -83,15 +82,12 @@ $s = $_REQUEST['s'];
 if ( !preg_match( '/^[01234567]$/'  , $s ) ){ $error_msg = "入力エラー:s";}
 
 // event_id
-$e = $_REQUEST['e'];
-if($e == ""){
-	if($s != 0 ){
-		$error_msg = "入力エラー:e0";
-	}
-}else if ( !preg_match( '/^[\d]+$/'  , $e ) ){
-	$error_msg = "入力エラー:e1";
-}else{
-	$SQL = sprintf("select event_id from event where event_id = %s and email = %s;",
+$e = (int)$_REQUEST['e'];
+switch($e){
+case 0:
+	break;
+default:
+	$SQL = sprintf("select * from event where event_id = %s and email = %s;",
 			mysql_esc($e),
 			mysql_esc($email));
 	if( $mysqli->query($SQL)->num_rows != 1 && $e != 0){
@@ -101,8 +97,19 @@ if($e == ""){
 	$st_date = $ROW->st_date;
 	$ed_date = $ROW->ed_date;
 	$logfile = preg_replace("/[\d\w.]+$/","",$_SERVER['SCRIPT_FILENAME']).
-			"event." . $e . ".log";
+			"log/event." . $e . ".log";
+
 }
+/*
+if($e == ""){
+	if($s != 0 ){
+		$error_msg = "入力エラー:e0";
+	}
+}else if ( !preg_match( '/^[\d]+$/'  , $e ) ){
+	$error_msg = "入力エラー:e1";
+}else{
+}
+*/
 
 // 予約者のメールアドレス
 $reserv_email = $_REQUEST['reserv_email'];
@@ -205,7 +212,7 @@ case 7:
 		$SQL = "select max(event_id) + 1 as e from event;";
 		$e = $mysqli->query($SQL)->fetch_object()->e;
 		$logfile = preg_replace("/[\d\w.]+$/","",$_SERVER['SCRIPT_FILENAME']).
-				"event." . $e . ".log";
+				"log/event." . $e . ".log";
 		$SQL = sprintf("insert into event(event_id,email,name,st_date,ed_date,capacity,comment) 
 				values(%s,%s,%s,%s,%s,%s,%s);",
 				mysql_esc($e),

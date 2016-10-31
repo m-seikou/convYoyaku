@@ -73,9 +73,8 @@ insert into event(name,email,st_date,ed_date,capacity)
 values('kigenngire','angelan@mihoshi.info','2008-01-01','2008-03-31',30);
 */
 //共通関数をインポート
-require ('./functions.php');
-require ('./forms.php');
-require_once 'config.php';
+require_once '../config.php';
+require_once '../lib/loader.php';
 
 // エラーメッセージ
 $error_msg = "";
@@ -110,7 +109,7 @@ if ( !preg_match( '/^[\d]+$/'  , $e ) ){
 		$error_msg .= "受付期間は $st_date 〜 $ed_date です。<br/>";
 	}
 	$logfile = preg_replace("/[\d\w.]+$/","",$_SERVER['SCRIPT_FILENAME']).
-			"event." . $e . ".log";
+			"log/event." . $e . ".log";
 }
 // 処理の区分
 $c = $_REQUEST['c'];

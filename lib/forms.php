@@ -212,7 +212,7 @@ global $mysqli;
 			mysql_esc($e));
 	$ROW = $mysqli->query($SQL)->fetch_object();
 	$url="";
-	if($_SERVER['HTTPS'] != ""){
+	if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != ""){
 		$url = "https://";
 		$port=443;
 	}else{

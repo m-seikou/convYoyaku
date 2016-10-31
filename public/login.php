@@ -15,13 +15,12 @@ create table manager(
 	time_stamp	timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
 	PRIMARY KEY  (email)
 );
-insert into manager values('angelan@mihoshi.info','hogehoge','命守 星光',default,default);
 */
 //共通関数をインポート
-require ('./functions.php');
-require ('./forms.php');
+require_once '../config.php';
+require_once '../lib/loader.php';
 // DBに接続
-$mysqli = new mysqli("localhost","yoyaku","hogefuga","yoyaku");
+$mysqli = new mysqli(DB_HOST,DB_USER,DB_PASS,DB_NAME);
 if (mysqli_connect_errno()) {
 	$error_msg = "データベース停止中。現在使用できません。";
 	return;
@@ -34,7 +33,7 @@ $passwd = $_REQUEST['passwd'];
 // パスワードのチェック
 $SQL = sprintf("select count(email) as cnt from manager where email = %s and passwd = %s;",
 		mysql_esc($email),
-		mysql_esc($passwd));
+		mysql_esc(sha1($passwd)));
 // OKの場合、ログインクッキーを発行(更新)し、管理画面へ。
 if ($mysqli->query($SQL)->fetch_object()->cnt == 1){
 	$k = create_sesID("hogehoge",$email);

@@ -1,6 +1,0 @@
-<Files ~ "^\.ht|\.(dat|lst|log)$">
-Order allow,deny
-</Files>
-<Files ~ "config.php">
-deny from all
-</Files>
