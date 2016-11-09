@@ -207,7 +207,6 @@ if ( $s == 0 ){
 
 	/* 確認メール送信処理 */
 	$preferences = array(
-			"input-charset" => "shift-jis",
 			"output-charset" => "iso-2022-jp",
 			"line-length" => 76,
 			"scheme" => "B",
@@ -266,7 +265,6 @@ http://{$_SERVER['SERVER_NAME']}{$_SERVER['SCRIPT_NAME']}?s=2&k=$k&c=$c&e=$e
 
 			/* 確認メール送信処理 */
 			$preferences = array(
-					"input-charset" => "shift-jis",
 					"output-charset" => "iso-2022-jp",
 					"line-length" => 76,
 					"scheme" => "B",
@@ -306,7 +304,7 @@ http://{$_SERVER['SERVER_NAME']}{$_SERVER['SCRIPT_NAME']}?s=2&k=$k&c=$c&e=$e
 		$comment = $ROW->comment;
 
 ?>
-		<tr><td><?php print_html($name); ?></td><td><?php print_html($email); ?></td><td><?php print_html($t); ?></td><td><?php print_html($comment); ?></td></td>
+		<tr><td><?php print_html($name); ?></td><td><?php print_html($email); ?></td><td><?php print_html($t); ?></td><td><?php print_html($comment); ?></td></tr>
 <?php
 	}
 ?>
